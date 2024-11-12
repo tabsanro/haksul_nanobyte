@@ -1,0 +1,5 @@
+streamlit
+loguru
+base64
+numpy
+reuqests

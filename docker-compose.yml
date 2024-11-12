@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "8501:8501"
+    networks:
+      - llm_network
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      - 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
+    networks:
+      - llm_network
+    depends_on:
+      - database
+
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    container_name: database
+    networks:
+      - llm_network
+    volumes:
+      - db_data:/data/db
+
+networks:
+  llm_network:
+    driver: bridge
+
+volumes:
+  db_data:
