@@ -1,3 +1,4 @@
 openai
 SpeechRecognition
 sentence_transformers
+psycopg2_binary

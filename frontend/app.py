@@ -1,6 +1,5 @@
 import time
 import streamlit as st
-from loguru import logger # for logging
 import base64
 
 def main():
@@ -18,7 +17,12 @@ def main():
     if "current_conversation" not in st.session_state:
         # 대화 초기 메시지 설정
         st.session_state.current_conversation = [{"role": "assistant", 
-                                                  "content": "안녕하세요.  \n 세종대학교 전자정보통신공학과 나노바이트 팀의 상황 정보 기반 대화형 상품 추천 서비스입니다.  \n다이소에서 필요한 걸 물어보세요!"}]
+                                                  "content": "안녕하세요. 나노바이트 팀의 상황 정보 기반 상품 추천 서비스입니다. 필요할 걸 물어보세요!"},
+                                                  {"role": "user",
+                                                  "content": "안녕~ 내일 일본여행 가는데 어떤거 사가야할지 추천해줘"},
+                                                  {"role": "assistant",
+                                                  "content": "일본여행에  가는 상황이군요!  \n 1. 여행용 멀티 어댑터 - 5000원  \n 2. 여행 용기 세트 100ml 3개입 - 2000원  \n  3. 양면 쿠션 수면 안대 - 1000원"}
+                                                ]
         st.session_state.conversations.append(st.session_state.current_conversation)
 
     # New Chat 버튼과 대화 목록 표시
@@ -38,7 +42,7 @@ def main():
                                           )
         if uploaded_files:
             print("file :", uploaded_files)
-        import frontend.speech as speech
+        import speech as speech
         # HTML 및 JavaScript 코드 삽입
         st.components.v1.html(speech.stt_html, height=600)
 

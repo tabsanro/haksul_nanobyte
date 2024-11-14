@@ -25,7 +25,7 @@ services:
     depends_on:
       - database
 
-  database:
+  nanobyte_db:
     build:
       context: ./database
       dockerfile: Dockerfile
@@ -33,11 +33,11 @@ services:
     networks:
       - llm_network
     volumes:
-      - db_data:/data/db
+      - nanobyte_volume:/var/lib/postgresql/data
 
 networks:
   llm_network:
     driver: bridge
 
 volumes:
-  db_data:
+  db_data: nanobyte_volume

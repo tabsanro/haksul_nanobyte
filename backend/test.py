@@ -21,7 +21,7 @@ def get_voice_command():
 
     try:
         # Recognize speech using Google Web Speech API
-        return recognizer.recognize_google(audio, language="ko-KR")
+        return recognizer.recognize_google(audio, language="ko-KR") # audio 가 음성파일?
     except sr.UnknownValueError:
         print("Could not understand audio")
         return ""
@@ -32,10 +32,10 @@ def get_voice_command():
 # PostgreSQL 데이터베이스 연결 및 데이터 가져오기
 def connect_db():
     connection = psycopg2.connect(
-        host="127.0.0.1",   # 실제 데이터베이스 호스트로 변경
-        user="postgres",    # 실제 데이터베이스 사용자 이름으로 변경
-        password="aisl1234!", # 실제 비밀번호로 변경
-        dbname="service"
+        host="localhost",   # 실제 데이터베이스 호스트로 변경
+        user="myuser",    # 실제 데이터베이스 사용자 이름으로 변경
+        password="1234", # 실제 비밀번호로 변경
+        dbname="mydb"
     )
     return connection
 
@@ -48,7 +48,7 @@ def fetch_all_items():
     connection.close()
     return items
 
-items = fetch_all_items()
+items = fetch_all_items() # -> 
 all_items_text = "\n".join([f"물품 이름: {item[0]}, 가격: {item[1]}, 이미지 URL: {item[2]}" for item in items])
 
 # 기본 텍스트와 음성 명령 입력
@@ -75,7 +75,7 @@ def is_image_file(image_path):
 if is_image_file(image_path):
     # 이미지가 존재하는 경우 실행할 코드
     print("Image file exists and is valid.")
-    base64_image = encode_image(image_path)
+    base64_image = encode_image(image_path) # 이미지를 base64로 인코딩
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         messages=[
@@ -84,7 +84,8 @@ if is_image_file(image_path):
                 "content": [
                     {
                         "type": "text",
-                        "text": "너는 상황에 따라서 물품을 추천하는 AI야. 가령, 집에 바퀴벌레가 나오면 살충제를 추천해주고 금이 간 벽이 있으면 보수 테이프 같은걸 추천해주면 돼. 데이터베이스를 연결해서 알려줄건데, 물품명을 최대 3개까지만 출력해줘. 반드시 물품명만을 출력해야되고, 쉼표로 구분하면 돼. 예를들어 보수테이프, 방수테이프, 레진 이런 느낌으로 출력하고 가장 연관성이 높은 순서대로 출력해줘. 그리고 맨 처음에는 사용자의 상황을 한줄로 요약해서 한 문장으로만 출력해줘. 그니깐 사용자가 배가 고파 하면 '배가 고픈 상황입니다. 빵, 케이크, 사탕' 이런 식으로 출력해줘! 반드시 맨 처음에 상황을 요약하는 한 문장과 뒤에 최대 3가지 물품을 출력해야해! 그리고 반드시 데이터베이스 안에 있는 물품만 말해줘 적합한게 없으면 딱 한개만이라도 말해줘" + all_items_text + user_response,
+                        "text": "너는 상황에 따라서 물품을 추천하는 AI야. 가령, 집에 바퀴벌레가 나오면 살충제를 추천해주고 금이 간 벽이 있으면 보수 테이프 같은걸 추천해주면 돼. 데이터베이스를 연결해서 알려줄건데, 물품명을 최대 3개까지만 출력해줘. 반드시 물품명만을 출력해야되고, 쉼표로 구분하면 돼. 예를들어 보수테이프, 방수테이프, 레진 이런 느낌으로 출력하고 가장 연관성이 높은 순서대로 출력해줘. 그리고 맨 처음에는 사용자의 상황을 한줄로 요약해서 한 문장으로만 출력해줘. 그니깐 사용자가 배가 고파 하면 '배가 고픈 상황입니다. 빵, 케이크, 사탕' 이런 식으로 출력해줘! 반드시 맨 처음에 상황을 요약하는 한 문장과 뒤에 최대 3가지 물품을 출력해야해! 그리고 반드시 데이터베이스 안에 있는 물품만 말해줘 적합한게 없으면 딱 한개만이라도 말해줘" \
+                            + all_items_text + user_response,
                     },
                     {
                         "type": "image_url",
