@@ -9,7 +9,7 @@ def main():
         page_icon=":books:"
     )
 
-    st.title(":red[나노바이트] 물품 추천 서비스")
+    st.title(":red[나노바이트]  물품   추천 서비스")
 
     # 세션 상태 초기화
     if "conversations" not in st.session_state:
